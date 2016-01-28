@@ -78,6 +78,38 @@
                 android:paddingLeft="16dp"
                 android:paddingRight="16dp"/>
 
+            <LinearLayout
+                android:gravity="center_vertical"
+                android:layout_height="wrap_content"
+                android:layout_width="match_parent"
+                android:orientation="vertical"
+                android:padding="16dp">
+
+                <View
+                    android:layout_width="match_parent"
+                    android:layout_height="2dp"
+                    android:background="@android:color/darker_gray"/>
+
+            </LinearLayout>
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/reviews_title"
+                android:textStyle="bold"
+                android:paddingLeft="16dp"
+                android:textSize="@dimen/abc_action_bar_content_inset_material" />
+
+            <com.linearlistview.LinearListView
+                android:id="@+id/review_list"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical"
+                android:divider="?android:dividerHorizontal"
+                android:showDividers="middle"
+                android:gravity="center"
+                android:padding="16dp"/>
+
         </LinearLayout>
 
     </ScrollView>

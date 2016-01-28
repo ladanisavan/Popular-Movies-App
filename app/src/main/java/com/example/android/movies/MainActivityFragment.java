@@ -2,7 +2,6 @@ package com.example.android.movies;
 
 import android.content.Intent;
 import android.content.SharedPreferences;
-import android.net.Uri;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.preference.PreferenceManager;
@@ -15,21 +14,21 @@ import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.GridView;
 
-import com.example.android.movies.adapter.MovieRenderAdapter;
+import com.example.android.movies.adapter.MovieDetailAdapter;
 import com.example.android.movies.model.MovieDetail;
+import com.example.android.movies.util.MovieJsonResponse;
+import com.example.android.movies.util.TMDbService;
 
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
-import java.io.BufferedReader;
-import java.io.IOException;
-import java.io.InputStream;
-import java.io.InputStreamReader;
-import java.net.HttpURLConnection;
-import java.net.URL;
 import java.util.ArrayList;
 import java.util.List;
+
+import retrofit2.Call;
+import retrofit2.GsonConverterFactory;
+import retrofit2.Retrofit;
 
 /**
  * A fragment to render movie posters in GridView
@@ -49,10 +48,10 @@ public class MainActivityFragment extends Fragment {
 
         //if movieDetailList is not null than use it to create adapter
         if(movieDetailList != null && movieDetailList.size() > 0){
-            movieDetailsAdapter = new MovieRenderAdapter(getActivity(), movieDetailList);
+            movieDetailsAdapter = new MovieDetailAdapter(getActivity(), movieDetailList);
         }else {
             //create adapter with blank list
-            movieDetailsAdapter = new MovieRenderAdapter(getActivity(), new ArrayList<MovieDetail>());
+            movieDetailsAdapter = new MovieDetailAdapter(getActivity(), new ArrayList<MovieDetail>());
         }
 
         // Get a reference to the ListView, and attach this adapter to it.
@@ -152,7 +151,7 @@ public class MainActivityFragment extends Fragment {
         protected List<MovieDetail> doInBackground(String... params) {
             // These two need to be declared outside the try/catch
             // so that they can be closed in the finally block.
-            HttpURLConnection urlConnection = null;
+            /*HttpURLConnection urlConnection = null;
             BufferedReader reader = null;
 
             // Will contain the raw JSON response as a string.
@@ -220,6 +219,20 @@ public class MainActivityFragment extends Fragment {
             try {
                 return getMovieDataFromJson(moviesJsonStr);
             } catch (JSONException e) {
+                Log.e(LOG_TAG, e.getMessage(), e);
+                e.printStackTrace();
+            }*/
+
+            try {
+                Retrofit retrofit = new Retrofit.Builder()
+                        .baseUrl("http://api.themoviedb.org/3/")
+                        .addConverterFactory(GsonConverterFactory.create())
+                        .build();
+                TMDbService tmDbService = retrofit.create(TMDbService.class);
+                Call<MovieJsonResponse> call = tmDbService.getMovieList(params[0], BuildConfig.MOVIE_DB_API_KEY);
+                MovieJsonResponse jsonResponse = call.execute().body();
+                return jsonResponse.getMovieList();
+            } catch (Exception e) {
                 Log.e(LOG_TAG, e.getMessage(), e);
                 e.printStackTrace();
             }

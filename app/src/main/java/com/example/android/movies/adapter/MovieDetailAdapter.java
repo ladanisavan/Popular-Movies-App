@@ -16,14 +16,14 @@ import java.util.List;
 /**
  * Created by savan on 28/12/2015.
  */
-public class MovieRenderAdapter extends ArrayAdapter<MovieDetail> {
+public class MovieDetailAdapter extends ArrayAdapter<MovieDetail> {
 
-    private final String LOG_TAG = MovieRenderAdapter.class.getSimpleName();
+    private final String LOG_TAG = MovieDetailAdapter.class.getSimpleName();
 
     //URL prefix to fetch movie poster from themoviedb.org
     private final String MOVIE_DB_BASE_URL = "http://image.tmdb.org/t/p/w185";
 
-    public MovieRenderAdapter(Context context, List<MovieDetail> movies) {
+    public MovieDetailAdapter(Context context, List<MovieDetail> movies) {
         super(context, 0, movies);
     }
 
