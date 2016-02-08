@@ -1,8 +1,10 @@
 package com.example.android.movies.model;
 
+import android.database.Cursor;
 import android.os.Parcel;
 import android.os.Parcelable;
 
+import com.example.android.movies.fragment.FavoriteMovieGridFragment;
 import com.google.gson.annotations.SerializedName;
 
 /**
@@ -27,6 +29,7 @@ public class MovieDetail implements Parcelable{
     private String releaseDate;
     @SerializedName("overview")
     private String movieOverview;
+    private boolean isFavorite;
 
     public MovieDetail(){
 
@@ -49,6 +52,16 @@ public class MovieDetail implements Parcelable{
         this.title = title;
     }
 
+    public MovieDetail(Cursor cursor) {
+        this.id = cursor.getInt(FavoriteMovieGridFragment.COL_MOVIE_ID);
+        this.title = cursor.getString(FavoriteMovieGridFragment.COL_TITLE);
+        this.posterPath = cursor.getString(FavoriteMovieGridFragment.COL_IMAGE);
+        //this.image2 = cursor.getString(FavoriteMovieGridFragment.COL_IMAGE2);
+        this.movieOverview = cursor.getString(FavoriteMovieGridFragment.COL_OVERVIEW);
+        this.voteAvg = cursor.getInt(FavoriteMovieGridFragment.COL_RATING);
+        this.releaseDate = cursor.getString(FavoriteMovieGridFragment.COL_DATE);
+    }
+
     public MovieDetail(Parcel parcel) {
         this.id = parcel.readInt();
         this.posterPath = parcel.readString();
@@ -58,6 +71,7 @@ public class MovieDetail implements Parcelable{
         this.voteAvg = parcel.readFloat();
         this.releaseDate = parcel.readString();
         this.movieOverview = parcel.readString();
+        this.isFavorite = parcel.readByte() != 0;
     }
 
     public int getId() {
@@ -120,6 +134,14 @@ public class MovieDetail implements Parcelable{
         this.movieOverview = movieOverview;
     }
 
+    public boolean isFavorite() {
+        return isFavorite;
+    }
+
+    public void setIsFavorite(boolean isFavorite) {
+        this.isFavorite = isFavorite;
+    }
+
     @Override
     public String toString() {
         return "MovieDetail{" +
@@ -131,6 +153,7 @@ public class MovieDetail implements Parcelable{
                 ", voteAvg=" + voteAvg +
                 ", releaseDate='" + releaseDate + '\'' +
                 ", movieOverview='" + movieOverview + '\'' +
+                ", isFavorite=" + isFavorite +
                 '}';
     }
 
@@ -149,6 +172,7 @@ public class MovieDetail implements Parcelable{
         parcel.writeFloat(voteAvg);
         parcel.writeString(releaseDate);
         parcel.writeString(movieOverview);
+        parcel.writeByte((byte)(isFavorite?1:0));
     }
 
     public final static Parcelable.Creator<MovieDetail> CREATOR = new Creator<MovieDetail>() {

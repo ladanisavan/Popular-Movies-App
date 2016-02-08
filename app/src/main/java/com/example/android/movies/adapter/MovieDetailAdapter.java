@@ -6,9 +6,12 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
 import android.widget.ImageView;
+import android.widget.TextView;
 
 import com.example.android.movies.R;
 import com.example.android.movies.model.MovieDetail;
+import com.example.android.movies.util.Constants;
+import com.google.common.base.Strings;
 import com.squareup.picasso.Picasso;
 
 import java.util.List;
@@ -20,29 +23,36 @@ public class MovieDetailAdapter extends ArrayAdapter<MovieDetail> {
 
     private final String LOG_TAG = MovieDetailAdapter.class.getSimpleName();
 
-    //URL prefix to fetch movie poster from themoviedb.org
-    private final String MOVIE_DB_BASE_URL = "http://image.tmdb.org/t/p/w185";
+    private Context mContext;
 
     public MovieDetailAdapter(Context context, List<MovieDetail> movies) {
         super(context, 0, movies);
+        mContext = context;
     }
 
     @Override
     public View getView(int position, View convertView, ViewGroup parent) {
-        // Gets the MovieDetail object from the ArrayAdapter at the appropriate position
         MovieDetail movieDetail = getItem(position);
 
-        // Adapters recycle views to AdapterViews.
-        // If this is a new View object we're getting, then inflate the layout.
-        // If not, this view already has the layout inflated from a previous call to getView,
-        // and we modify the View widgets as usual.
         if (convertView == null) {
             convertView = LayoutInflater.from(getContext()).inflate(
                     R.layout.movie_item, parent, false);
         }
 
         ImageView moviePosterView = (ImageView) convertView.findViewById(R.id.movie_image);
-        Picasso.with(getContext()).load(MOVIE_DB_BASE_URL + movieDetail.getPosterPath()).into(moviePosterView);
+        Picasso.with(getContext())
+                .load(Constants.MOVIE_DB_IMAGE_BASE_URL + movieDetail.getPosterPath())
+                .resize(Constants.MOVIE_POSTER_WIDTH, Constants.MOVIE_POSTER_HEIGHT)
+                .centerCrop()
+                .into(moviePosterView);
+        TextView movieYear = (TextView) convertView.findViewById(R.id.movie_year);
+        if(!Strings.isNullOrEmpty(movieDetail.getReleaseDate())){
+            movieYear.setText(movieDetail.getReleaseDate().substring(0,4));
+        }
+        TextView movieRating = (TextView) convertView.findViewById(R.id.movie_rating);
+        //movieRating.setText(String.valueOf(String.format("%.1f", movieDetail.getVoteAvg())).concat("/10"));
+        float rating = movieDetail.getVoteAvg();
+        movieRating.setText(String.format(mContext.getString(R.string.movie_rating_format), rating));
 
         return convertView;
     }

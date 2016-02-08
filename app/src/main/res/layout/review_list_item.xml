@@ -8,13 +8,11 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:id="@+id/author_name"
-        android:textStyle="bold"
-        android:text="savan ladani"/>
+        android:textStyle="bold"/>
 
     <TextView
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:id="@+id/review_content"
-        android:text="askjdjawhf ahfdhfh  fohwafiohasio ahfhh aiodhoa  oahf ioah foiah hiash foiah foih aoifh "/>
+        android:id="@+id/review_content"/>
 
 </LinearLayout>

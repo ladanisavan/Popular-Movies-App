@@ -33,6 +33,7 @@ dependencies {
     compile 'com.google.code.gson:gson:2.2.4'
     compile 'com.android.support:cardview-v7:23.0.+'
     compile 'com.github.frankiesardo:linearlistview:1.0.1@aar'
+    compile group: 'com.google.guava', name: 'guava', version: '15.0'
 }
 
 repositories {
