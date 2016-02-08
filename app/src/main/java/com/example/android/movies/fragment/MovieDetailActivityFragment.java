@@ -83,7 +83,10 @@ public class MovieDetailActivityFragment extends Fragment {
         reviewList.setAdapter(reviewCommentAdapter);
 
         ((TextView) rootView.findViewById(R.id.movie_title)).setText(movieDetail.getTitle());
-        Picasso.with(getActivity()).load(Constants.MOVIE_DB_IMAGE_BASE_URL + movieDetail.getPosterPath()).into((ImageView) rootView.findViewById(R.id.movie_thumbnail));
+        Picasso.with(getActivity()).load(Constants.MOVIE_DB_IMAGE_BASE_URL + movieDetail.getPosterPath())
+                .resize(Constants.MOVIE_POSTER_WIDTH, Constants.MOVIE_POSTER_HEIGHT)
+                .centerCrop()
+                .into((ImageView) rootView.findViewById(R.id.movie_thumbnail));
         if(!Strings.isNullOrEmpty(movieDetail.getReleaseDate())){
             ((TextView) rootView.findViewById(R.id.movie_release_date)).setText(movieDetail.getReleaseDate().substring(0,4));
         }

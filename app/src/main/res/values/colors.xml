@@ -3,5 +3,6 @@
     <color name="colorPrimary">#3F51B5</color>
     <color name="colorPrimaryDark">#303F9F</color>
     <color name="colorAccent">#FF4081</color>
-    <color name="colorMovieTitle">#5f9ea0</color>
+    <color name="colorMovieTitle">#455A64</color>
+    <color name="colorMoviePosterOverlay">#A6424242</color>
 </resources>
