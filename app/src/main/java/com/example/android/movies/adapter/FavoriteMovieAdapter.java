@@ -9,11 +9,11 @@ import android.widget.CursorAdapter;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import com.bumptech.glide.Glide;
 import com.example.android.movies.R;
 import com.example.android.movies.fragment.FavoriteMovieGridFragment;
 import com.example.android.movies.util.Constants;
 import com.google.common.base.Strings;
-import com.squareup.picasso.Picasso;
 
 /**
  * Created by savan on 07/02/2016.
@@ -37,9 +37,14 @@ public class FavoriteMovieAdapter extends CursorAdapter {
     @Override
     public void bindView(View view, Context context, Cursor cursor) {
         ImageView moviePosterView = (ImageView) view.findViewById(R.id.movie_image);
-        Picasso.with(context)
+       /* Picasso.with(context)
                 .load(Constants.MOVIE_DB_IMAGE_BASE_URL + cursor.getString(FavoriteMovieGridFragment.COL_IMAGE))
                 .resize(Constants.MOVIE_POSTER_WIDTH, Constants.MOVIE_POSTER_HEIGHT)
+                .centerCrop()
+                .into(moviePosterView);*/
+        Glide.with(context)
+                .load(Constants.MOVIE_DB_IMAGE_BASE_URL + cursor.getString(FavoriteMovieGridFragment.COL_IMAGE))
+                .override(Constants.MOVIE_POSTER_WIDTH, Constants.MOVIE_POSTER_HEIGHT)
                 .centerCrop()
                 .into(moviePosterView);
         TextView movieYear = (TextView) view.findViewById(R.id.movie_year);

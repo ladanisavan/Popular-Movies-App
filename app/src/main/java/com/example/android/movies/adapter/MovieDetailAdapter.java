@@ -8,11 +8,11 @@ import android.widget.ArrayAdapter;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import com.bumptech.glide.Glide;
 import com.example.android.movies.R;
 import com.example.android.movies.model.MovieDetail;
 import com.example.android.movies.util.Constants;
 import com.google.common.base.Strings;
-import com.squareup.picasso.Picasso;
 
 import java.util.List;
 
@@ -40,9 +40,14 @@ public class MovieDetailAdapter extends ArrayAdapter<MovieDetail> {
         }
 
         ImageView moviePosterView = (ImageView) convertView.findViewById(R.id.movie_image);
-        Picasso.with(getContext())
+        /*Picasso.with(getContext())
                 .load(Constants.MOVIE_DB_IMAGE_BASE_URL + movieDetail.getPosterPath())
                 .resize(Constants.MOVIE_POSTER_WIDTH, Constants.MOVIE_POSTER_HEIGHT)
+                .centerCrop()
+                .into(moviePosterView);*/
+        Glide.with(getContext())
+                .load(Constants.MOVIE_DB_IMAGE_BASE_URL + movieDetail.getPosterPath())
+                .override(Constants.MOVIE_POSTER_WIDTH, Constants.MOVIE_POSTER_HEIGHT)
                 .centerCrop()
                 .into(moviePosterView);
         TextView movieYear = (TextView) convertView.findViewById(R.id.movie_year);
